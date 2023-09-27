@@ -93,8 +93,9 @@ func (l *requestLogger) NewLogEntry(r *http.Request) middleware.LogEntry {
 	msg := fmt.Sprintf("Request: %s %s", r.Method, r.URL.Path)
 	entry.Logger = l.Logger.With().Fields(requestLogFields(r, true)).Logger()
 	if !DefaultOptions.Concise {
-		entry.Logger.Info().Fields(requestLogFields(r, DefaultOptions.Concise)).Msgf(msg)
+		l.Logger.Info().Fields(requestLogFields(r, DefaultOptions.Concise)).Msgf(msg)
 	}
+	entry.Logger = l.Logger.With().Fields(requestLogFields(r, true)).Logger()
 	return entry
 }
 
